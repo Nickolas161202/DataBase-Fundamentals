@@ -1,39 +1,37 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect, use } from 'react'
+import InputLabel from './components/inputLabel'
 import './App.css'
+import PrimaryButton from './components/PrimaryButton'
 
 function App() {
   const [count, setCount] = useState(0)
-  const [currentTime, setCurrentTime] = useState(0);
-  
-  useEffect(() => {
-    fetch('/api/time').then(res => res.json()).then(data => {
-      setCurrentTime(data.time);
-    });
-  }, []);
+  const [mail, setusrMail] = useState("")
+  const [pwd, setpwd] = useState("")
+  const post = async (e) => {
+    let user = {username: mail, password: pwd }
+    e.preventDefault()
+    let res = await fetch('/api/login', {
+      method:'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)})
+      const data = await res.json()
+      console.log(data);
+      
+  }
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        {currentTime}
-      </p>
+    <h1>Login</h1>
+      <form onSubmit={post}>
+        <InputLabel content={"email"}/>
+        <input type='text'  onChange={(e) => setusrMail(e.target.value)}/>
+        <InputLabel content={"password"}/>
+        <input type='text' onChange={(e) => setpwd(e.target.value)}/>
+        <PrimaryButton label={"login"}/>
+      </form>      
+          
+          
     </>
   )
 }
