@@ -11,7 +11,12 @@ def get_current_time():
 
 @app.route('/api/login', methods=['GET', 'POST'])
 def get_login():
-    
-    user =  request.get_json(silent=True) 
+    user =  request.get_json(silent=True)
+    print(user)
+    return user
 
+@app.route('/api/create', methods=['GET', 'POST'])
+def get_login():
+    user =  request.get_json(silent=True)
+    print(user)
     return user

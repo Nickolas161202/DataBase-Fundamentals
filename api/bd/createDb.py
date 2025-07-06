@@ -1,13 +1,9 @@
 import psycopg2
 
-def teste():
-    return 1+1
-
 
 def connect_db():
     # Connect to your postgres DB
     conn = psycopg2.connect("host=localhost dbname=Linkado user=aplicacao password=senha123")
-
 # Open a cursor to perform database operations
     cur = conn.cursor()
 
@@ -16,4 +12,5 @@ def connect_db():
 
 # Retrieve query results
     records = cur.fetchall()
+    cur.close()
     return records
