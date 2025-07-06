@@ -40,11 +40,11 @@ class Perfil_Pessoal(Conta):
 class Perfil_Empresarial(Conta):
     
     def __init__(self, id: int, name: str, email: str, password: str, nome_fantasia: str, localizacao: str, setor: str, cod_institucional: int = None, **kwargs):
-        super().__init__(id,name, email, password, **kwargs)
+        super().__init__(id=id,name=name, email=email, password=password, **kwargs)
         self.nome_fantasia = nome_fantasia  
         self.localizacao = localizacao  
         self.setor = setor
-        self.cod_instucional = cod_institucional
+        self.cod_institucional = cod_institucional
         self.tipo = "empresarial"
     def to_dict(self):
         data = super().to_dict()
