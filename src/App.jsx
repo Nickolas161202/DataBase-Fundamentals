@@ -2,7 +2,7 @@ import { useState, useEffect, use } from 'react'
 import InputLabel from './components/inputLabel'
 import './App.css'
 import PrimaryButton from './components/PrimaryButton'
-
+import { Link } from 'react-router'
 function App() {
   const [count, setCount] = useState(0)
   const [mail, setusrMail] = useState("")
@@ -30,8 +30,8 @@ function App() {
         <input type='text' onChange={(e) => setpwd(e.target.value)}/>
         <PrimaryButton label={"login"}/>
       </form>      
-          
-          
+      <p>Ainda não tem conta?</p>
+        <Link to={'/register'}>jabilson</Link>
     </>
   )
 }

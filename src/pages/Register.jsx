@@ -1,7 +1,7 @@
 import { useState, useEffect, use } from 'react'
-import InputLabel from './components/inputLabel'
-import './App.css'
-import PrimaryButton from './components/PrimaryButton'
+import InputLabel from '../components/inputLabel'
+
+import PrimaryButton from '../components/PrimaryButton'
 
 function RegisterPage() {
   const [mail, setusrMail] = useState("")
