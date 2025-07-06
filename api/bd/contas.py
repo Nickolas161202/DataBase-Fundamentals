@@ -1,3 +1,5 @@
+import psycopg2
+
 class Conta:
     
     def __init__(self, id: int, name: str, password: str, email: str, foto_perfil: str = None, banner: str = None ,sobre: str = None):
@@ -21,8 +23,8 @@ class Conta:
 
 class Perfil_Pessoal(Conta):
     
-    def __init__(self, id: int, name: str, email: str, senha: str, titulo: str, **kwargs):
-        super().__init__(id,name, email, senha, **kwargs)
+    def __init__(self, id: int, name: str, email: str, password: str, titulo: str, **kwargs):
+        super().__init__(id=id,name=name,email=email, password=password, **kwargs)
         self.titulo = titulo
     
     def to_dict(self):
@@ -33,12 +35,11 @@ class Perfil_Pessoal(Conta):
         
 class Perfil_Empresarial(Conta):
     
-    def __init__(self, id: int, name: str, email: str, senha: str, nome_fantasia: str, localizacao: str, setor: str, **kwargs):
-        super().__init__(id,name, email, senha, **kwargs)
+    def __init__(self, id: int, name: str, email: str, password: str, nome_fantasia: str, localizacao: str, setor: str, **kwargs):
+        super().__init__(id,name, email, password, **kwargs)
         self.nome_fantasia = nome_fantasia  
         self.localizacao = localizacao  
         self.setor = setor
-        
     def to_dict(self):
         data = super().to_dict()
         data['nomeFantasia'] = self.nome_fantasia
@@ -50,8 +51,65 @@ class Perfil_Empresarial(Conta):
 
 class Gerenciamento_Contas:
     
-    def __init__(self):
-        pass
+    def __init__(self,conexao):
+        self.conexao = conexao
     
-    def criar_conta(dados: dict):
-        pass
+    def generete_id():
+        return 0
+    
+    def criar_conta(self, data: dict):
+        
+        nova_conta = self.gerar_conta(data)
+        
+        if nova_conta is not None:
+            try:
+                nova_conta = self._insert_conta_banco(nova_conta)  
+                self.conexao.commit()
+            except (Exception, psycopg2.DatabaseError) as e:
+                print(f"Falha ao inserir conta no banco de dados: {e}")
+    
+    def insert_conta_banco(self, conta):
+        # Em construção
+        with self.conexao.cursor() as cursor:
+            cursor.execute(f"INSERT INTO contas (Email, Nome, Senha, Foto_Perfil, Banner, Sobre) VALUES ()")
+        
+        
+        return 0
+            
+    
+    def gerar_conta(self, data: dict):
+        
+        tipo_conta = data['type']
+        nova_conta = None
+        
+        try:
+            if tipo_conta == "pessoal":
+                nova_conta = Perfil_Pessoal(
+                    id=self.generate_id(),
+                    name=data['name'],
+                    email=data['email'],
+                    password=data['password'],
+                    titulo=data['titulo'],
+                    foto_perfil=data.get('foto_perfil'),
+                    banner=data.get('banner'),
+                    sobre=data.get('sobre')
+                )
+            
+            elif tipo_conta == "empresarial":
+                nova_conta = Perfil_Empresarial(
+                    id=self.generate_id(),
+                    name=data['name'],
+                    email=data['email'],
+                    password=data['password'],
+                    nome_fantasia=data['nome_fantasia'],
+                    localizacao=data['localizacao'],
+                    setor=data['setor'],
+                    foto_perfil=data.get('foto_perfil'),
+                    banner=data.get('banner'),
+                    sobre=data.get('sobre')
+                )
+            else:
+                return (None)
+            return (nova_conta)
+        except KeyError as e:
+            return (None)

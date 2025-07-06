@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "api": "cd api && venv/bin/flask run --no-debug"
+    "api": "cd api && venv/bin/flask run --no-debug",
+    "apiwin": "cmd /c \"cd api && call venv\\Scripts\\activate && flask run --no-debug\""
   },
   "dependencies": {
     "react": "^19.1.0",
