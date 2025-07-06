@@ -13,6 +13,5 @@ def get_current_time():
 def get_login():
     
     user =  request.get_json(silent=True) 
-    print(user)
-    
+
     return user
